@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Kosicek()
+comment1.params=vec
+comment1.target=java.lang.String\ vlozVec(Vec)
+comment1.text=\r\n\ Vkl\u00E1d\u00E1n\u00ED\ v\u011Bc\u00ED\ do\ ko\u0161\u00ED\u010Dku\r\n\r\n\ @param\ vec\ instance\ v\u011Bci,\ kter\u00E1\ se\ m\u00E1\ vlo\u017Eit\r\n
+comment2.params=
+comment2.target=java.lang.String\ nazvyVeci()
+comment2.text=\r\n\ Vr\u00E1t\u00ED\ n\u00E1mm\ n\u00E1zvy\ v\u011Bc\u00ED,\ kter\u00E9\ jsou\ v\ ko\u0161\u00ED\u010Dku\r\n\r\n\ @return\ \u0159et\u011Bzec\ n\u00E1zv\u016F\r\n
+comment3.params=jmeno\ odebrat
+comment3.target=Vec\ vyberVec(java.lang.String,\ boolean)
+comment3.text=\ \r\n\ Hled\u00E1\ v\u011Bc\ dan\u00E9ho\ jm\u00E9na\ a\ pokud\ je\ v\ ko\u0161\u00ED\u010Dku,\ tak\ ji\ vr\u00E1t\u00ED\ a\ vyma\u017Ee\ ze\ seznamu\r\n\r\n\ @param\ jmeno\ Jm\u00E9no\ v\u011Bci\r\n\ @return\ v\u011Bc\ nebo\ hodnota\ null,\ pokud\ tam\ v\u011Bc\ dan\u00E9ho\ jm\u00E9na\ nen\u00ED\r\n
+numComments=4
