@@ -9,46 +9,48 @@ import static com.github.simn00.adventura.util.Texts.*;
  * @author Nikol Šímová
  * @version 2017-05-17
  */
-public class PrikazSeber implements IPrikaz {
-    private static final String NAZEV = "seber";
+public class PrikazMluv implements IPrikaz {
+    private static final String NAZEV = "mluv";
     private final HerniPlan plan;
-    private final Kosicek kosicek;
 
     /**
      * Konstruktor třídy
      *
      * @param plan herní plán, ve kterém se bude hledat aktuální místnost
-     * @param kosicek inventář hráče
      */
-    public PrikazSeber(HerniPlan plan, Kosicek kosicek) {
+    public PrikazMluv(HerniPlan plan) {
         this.plan = plan;
-        this.kosicek = kosicek;
     }
 
     /**
-     * Provádí příkaz "seber". V aktuální místnosti hledá věc, která je předána jako parametr
+     * Promluví s herním objektem
      *
-     * @param parametry - jako  parametr obsahuje jméno věci,
-     *                  která se má sebrat.
+     * @param parametry - jako  parametr obsahuje jméno osoby,
+     *                  se kterou má mluvit.
      * @return zpráva, kterou vypíše hra hráči
      */
     @Override
     public String proved(String... parametry) {
         if (parametry.length == 0) {
             // pokud chybí druhé slovo , tak ....
-            return tVEC_NEZADANA;
+            return tS_KYM_MLUVIT;
         }
 
         String jmenoVeci = parametry[0];
-
         // vybereme věc
-        Vec vec = plan.getAktualniProstor().vyberVec(jmenoVeci, true);
+        Vec vec = plan.getAktualniProstor().vyberVec(jmenoVeci, false);
 
         if (vec == null) {
-            return tVEC_TU_NENI;
-        } else {
-            // uložíme věc do batohu
-            return (vec.isPatri() ? kosicek.vlozVec(vec) : tNEMOHU_VZIT);
+            return tS_KYM_MLUVIT;
+        }
+        switch (parametry[0]) {
+            case MAMINKA:
+                return oMAMINKA;
+            case MEDVIDEK:
+                return oMEDVIDEK;
+            default:
+                return tMEDVIDEK_NEMLUVI;
+
         }
     }
 

@@ -1,42 +1,45 @@
 package com.github.simn00.adventura.logika;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**
  * Trida Prostor - popisuje jednotlivé prostory (místnosti) hry
- *
+ * <p>
  * Tato třída je součástí jednoduché textové hry.
- *
+ * <p>
  * "Prostor" reprezentuje jedno místo (místnost, prostor, ..) ve scénáři hry.
  * Prostor může mít sousední prostory připojené přes východy. Pro každý východ
  * si prostor ukládá odkaz na sousedící prostor.
  *
- * @author Michael Kolling, Lubos Pavlicek, Jarmila Pavlickova, Alena Buchalcevova
- * @version z kurzu 4IT101 pro školní rok 2014/2015
+ * @author Nikol Šímová
+ * @version 2017-05-17
  */
 public class Prostor {
 
-    private String nazev;
-    private String popis;
-    private Set<Prostor> vychody;   // obsahuje sousední místnosti
- private Map<String, Vec> seznamVeci ;   // seznam věcí v prostoru
+    private final String nazev;
+    private final String popis;
+    private final Set<Prostor> vychody;   // obsahuje sousední místnosti
+    private final Map<String, Vec> veci;
+    private double x;
+    private double y;
+    
+
     /**
      * Vytvoření prostoru se zadaným popisem, např. "kuchyň", "hala", "trávník
      * před domem"
      *
      * @param nazev nazev prostoru, jednoznačný identifikátor, jedno slovo nebo
-     * víceslovný název bez mezer.
+     *              víceslovný název bez mezer.
      * @param popis Popis prostoru.
      */
-    public Prostor(String nazev, String popis) {
+    public Prostor(String nazev, String popis, double x, double y) {
         this.nazev = nazev;
         this.popis = popis;
         vychody = new HashSet<>();
-        seznamVeci = new HashMap<String, Vec>();
+        veci = new HashMap<>();
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -47,7 +50,6 @@ public class Prostor {
      * žádné chybové hlášení). Lze zadat též cestu ze do sebe sama.
      *
      * @param vedlejsi prostor, který sousedi s aktualnim prostorem.
-     *
      */
     public void setVychod(Prostor vedlejsi) {
         vychody.add(vedlejsi);
@@ -57,13 +59,13 @@ public class Prostor {
      * Metoda equals pro porovnání dvou prostorů. Překrývá se metoda equals ze
      * třídy Object. Dva prostory jsou shodné, pokud mají stejný název. Tato
      * metoda je důležitá z hlediska správného fungování seznamu východů (Set).
-     *
+     * <p>
      * Bližší popis metody equals je u třídy Object.
      *
      * @param o object, který se má porovnávat s aktuálním
      * @return hodnotu true, pokud má zadaný prostor stejný název, jinak false
-     */  
-      @Override
+     */
+    @Override
     public boolean equals(Object o) {
         // porovnáváme zda se nejedná o dva odkazy na stejnou instanci
         if (this == o) {
@@ -80,7 +82,7 @@ public class Prostor {
         //Vrátí true pro stejné názvy a i v případě, že jsou oba názvy null,
         //jinak vrátí false.
 
-       return (java.util.Objects.equals(this.nazev, druhy.nazev));       
+        return (java.util.Objects.equals(this.nazev, druhy.nazev));
     }
 
     /**
@@ -97,7 +99,7 @@ public class Prostor {
         vysledek = 37 * vysledek + hashNazvu;
         return vysledek;
     }
-      
+
 
     /**
      * Vrací název prostoru (byl zadán při vytváření prostoru jako parametr
@@ -106,7 +108,7 @@ public class Prostor {
      * @return název prostoru
      */
     public String getNazev() {
-        return nazev;       
+        return nazev;
     }
 
     /**
@@ -117,8 +119,9 @@ public class Prostor {
      * @return Dlouhý popis prostoru
      */
     public String dlouhyPopis() {
-        return "Jsi v mistnosti/prostoru " + popis + ".\n"
-                + popisVychodu()+ "\n" + nazvyVeci ();
+        return "Jsi v mistnosti/prostoru s nazvem " + nazev + "\n" + popis + ".\n"
+                + popisVychodu() + "\n"
+                + popisVeci();
     }
 
     /**
@@ -135,6 +138,14 @@ public class Prostor {
         return vracenyText;
     }
 
+    private String popisVeci() {
+        String vracenyText = "nachazi se tu:";
+        for (String nazev : veci.keySet()) {
+            vracenyText += " " + nazev;
+        }
+        return vracenyText;
+    }
+
     /**
      * Vrací prostor, který sousedí s aktuálním prostorem a jehož název je zadán
      * jako parametr. Pokud prostor s udaným jménem nesousedí s aktuálním
@@ -145,67 +156,55 @@ public class Prostor {
      * null, pokud prostor zadaného jména není sousedem.
      */
     public Prostor vratSousedniProstor(String nazevSouseda) {
-        if (nazevSouseda == null) {
+        List<Prostor> hledaneProstory =
+                vychody.stream()
+                        .filter(sousedni -> sousedni.getNazev().equals(nazevSouseda))
+                        .collect(Collectors.toList());
+        if (hledaneProstory.isEmpty()) {
             return null;
+        } else {
+            return hledaneProstory.get(0);
         }
-        for (Prostor sousedni : vychody) {
-            if (sousedni.getNazev().equals(nazevSouseda)) {
-                return sousedni;
-            }
-        }
-        return null;  // prostor nenalezen
     }
 
-    /**
-     * Vrací kolekci obsahující prostory, se kterými tento prostor sousedí.
-     * Takto získaný seznam sousedních prostor nelze upravovat (přidávat,
-     * odebírat východy) protože z hlediska správného návrhu je to plně
-     * záležitostí třídy Prostor.
-     *
-     * @return Nemodifikovatelná kolekce prostorů (východů), se kterými tento
-     * prostor sousedí.
-     */
-    public Collection<Prostor> getVychody() {
-        return Collections.unmodifiableCollection(vychody);
-    }
- /**
-     * Vloží věc do prostoru
-     *
-     *@param  vec  instance věci, která se má vložit
-     */
-   public void vlozVec (Vec vec) {
-     seznamVeci.put(vec.getJmeno(),vec);
-    }
-     /**
-     * Vrací řetězec názvů věcí, které jsou v prostoru
 
-     *@return            řetězec názvů
-     */
-    public String nazvyVeci () {
-        String nazvy = "věci: ";
-        for (String jmenoVeci : seznamVeci.keySet()){
-            	nazvy += jmenoVeci + " ";
-        }
-        return nazvy;
+    public void vlozVec(Vec vec) {
+        veci.put(vec.getNazev(), vec);
     }
-     /**
-     * Hledá věc daného jména a pokud je v prostoru a je přenositelná, tak ji vrátí a vymaže ze seznamu
 
-     *@param  jmeno   Jméno věci
-     *@return            věc nebo
-     *                   hodnota null, pokud tam věc daného jména není a nebo není přenositelná
-     */
-    public Vec vyberVec (String jmeno) {
+
+    public Vec vyberVec(String jmeno, boolean odebrat) {
         Vec nalezenaVec = null;
-        if (seznamVeci.containsKey(jmeno)) {
-            nalezenaVec = seznamVeci.get(jmeno);
-            if (nalezenaVec.jePrenositelna()) {
-                seznamVeci.remove(jmeno);
-            }
-            else {
-                nalezenaVec = null;
+        if (veci.containsKey(jmeno)) {
+            nalezenaVec = veci.get(jmeno);
+            if (odebrat) {
+                veci.remove(jmeno);
             }
         }
         return nalezenaVec;
     }
+    
+        public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+        
+        public Map<String, Vec> getVeci() 
+        {
+    	return this.veci;
+        }
+        
+        public String seznamVychodu() 
+    {
+        String vracenyText = "vychody:";
+        for (Prostor sousedni : vychody) {
+             vracenyText += " " + sousedni.getNazev();
+        }
+        return vracenyText;
+    }
+
 }

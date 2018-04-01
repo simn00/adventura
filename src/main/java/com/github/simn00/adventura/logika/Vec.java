@@ -1,40 +1,115 @@
+/* Soubor je ulozen v kodovani UTF-8.
+ * Kontrola kódování: Příliš žluťoučký kůň úpěl ďábelské ódy. */
 package com.github.simn00.adventura.logika;
 
- 
 
 /*******************************************************************************
- * Třída Vec ...
+ * Instance třídy Vec představují věci a jejich popis, se kterými se můžeme setkat ve hře.
  *
- *@author     Alena Buchalcevova
- *@version    z kurzu 4IT101 pro školní rok 2014/2015
+ *
+ * @author Nikol Šímová
+ * @version 2017-05-17
  */
-public class Vec
-{
-//== Datové atributy (statické i instancí)======================================
-    private String jmeno;
-    private boolean prenositelna;
+public class Vec {
+    private final boolean patri;
+    //== Datové atributy (statické i instancí)======================================
+    private String nazev;
+    private String popis;
+    private String obrazek;
 
-//##############################################################################
-//== Konstruktory a tovární metody =============================================
+    //== Konstruktory a tovární metody =============================================
 
-    /***************************************************************************
+    /**
+     * Konstruktor ....
      *
+     * @param nazev        název věci
+     * @param popis        popis věci
+     * @param patri zda věc patří do košíčku
      */
-    public Vec (String jmeno, boolean prenositelna) {
-		this.jmeno = jmeno;
-		this.prenositelna = prenositelna;
-	}
+    public Vec(String nazev, String popis, boolean patri, String obrazek) {
+        this.nazev = nazev;
+        this.popis = popis;
+        this.patri = patri;
+        this.obrazek = obrazek;
+    }
 
+    /**
+     * Vrátí název věci
+     *
+     * @return název věci
+     */
+    public String getNazev() {
+        return nazev;
+    }
 
+    /**
+     * Nastaví název věci
+     *
+     * @param nazev nový název věci
+     */
+    public void setNazev(String nazev) {
+        this.nazev = nazev;
+    }
 
-//== Nesoukromé metody (instancí i třídy) ===============================================
-//== Soukromé metody (instancí i třídy) ===========================================
-    public String getJmeno () {
-		return jmeno;
-	}
-	public boolean jePrenositelna() {
-		return prenositelna;
-	}
+    /**
+     * Vrátí popis věci
+     *
+     * @return popis věci
+     */
+    public String getPopis() {
+        return popis;
+    }
 
+    /**
+     * Nastaví popis věci
+     *
+     * @param popis nový popis věci
+     */
+    public void setPopis(String popis) {
+        this.popis = popis;
+    }
+
+    /**
+     * Vrací zda je věc přenositelná
+     *
+     * @return true - věc do košíčku patří, false - věc do košíčku nepatří
+     */
+    public boolean isPatri() {
+        return patri;
+    }
+
+    /**
+     * Generovaná porovnávací funkce equals
+     *
+     * @param obj porovnávaný objekt
+     * @return true/false zda je objekt shodný
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj){ return true;}
+        if (obj == null || getClass() != obj.getClass()){ return false;}
+
+        Vec vec = (Vec) obj;
+
+        if (nazev != null ? !nazev.equals(vec.nazev) : vec.nazev != null){ return false;}
+        return popis != null ? popis.equals(vec.popis) : vec.popis == null;
+    }
+
+    /**
+     * Vrací hash code objektu
+     *
+     * @return hash kód objektu
+     */
+    @Override
+    public int hashCode() {
+        int result = nazev != null ? nazev.hashCode() : 0;
+        result = 31 * result + (popis != null ? popis.hashCode() : 0);
+        return result;
+    }
+
+    public String getObrazek() {
+        return obrazek;
+    }
+    
+    
 }
-

@@ -40,7 +40,7 @@
 		    <archive>
 		      <manifest>
 		        <addClasspath>true</addClasspath>
-		        <mainClass>com.github.simn00.Start</mainClass>
+		        <mainClass>com.github.simn00.adventura.main.Adventura</mainClass>
 		      </manifest>
 		    </archive>
 		  </configuration>

@@ -1,26 +1,24 @@
 package com.github.simn00.adventura.logika;
 
 /**
- *  Třída PrikazKonec implementuje pro hru příkaz konec.
- *  Tato třída je součástí jednoduché textové hry.
- *  
- *@author     Jarmila Pavlickova
- *@version    z kurzu 4IT101 pro školní rok 2014/2015
-
- *  
+ * Třída PrikazKonec implementuje pro hru příkaz konec.
+ * Tato třída je součástí jednoduché textové hry.
+ *
+ * @author Nikol Šímová
+ * @version 2017-05-17
  */
 
-public class PrikazKonec implements IPrikaz {
+class PrikazKonec implements IPrikaz {
 
     private static final String NAZEV = "konec";
 
-    private Hra hra;
+    private final Hra hra;
 
     /**
-     *  Konstruktor třídy
-     *  
-     *  @param hra odkaz na hru, která má být příkazem konec ukončena
-     */    
+     * Konstruktor třídy
+     *
+     * @param hra odkaz na hru, která má být příkazem konec ukončena
+     */
     public PrikazKonec(Hra hra) {
         this.hra = hra;
     }
@@ -28,7 +26,7 @@ public class PrikazKonec implements IPrikaz {
     /**
      * V případě, že příkaz má jen jedno slovo "konec" hra končí(volá se metoda setKonecHry(true))
      * jinak pokračuje např. při zadání "konec a".
-     * 
+     *
      * @return zpráva, kterou vypíše hra hráči
      */
 
@@ -36,17 +34,16 @@ public class PrikazKonec implements IPrikaz {
     public String proved(String... parametry) {
         if (parametry.length > 0) {
             return "Ukončit co? Nechápu, proč jste zadal druhé slovo.";
-        }
-        else {
+        } else {
             hra.setKonecHry(true);
             return "hra ukončena příkazem konec";
         }
     }
 
     /**
-     *  Metoda vrací název příkazu (slovo které používá hráč pro jeho vyvolání)
-     *  
-     *  @ return nazev prikazu
+     * Metoda vrací název příkazu (slovo které používá hráč pro jeho vyvolání)
+     *
+     * @return nazev prikazu
      */
     @Override
     public String getNazev() {

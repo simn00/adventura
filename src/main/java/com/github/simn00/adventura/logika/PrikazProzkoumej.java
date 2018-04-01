@@ -1,7 +1,8 @@
 package com.github.simn00.adventura.logika;
 
 
-import static com.github.simn00.adventura.util.Texts.*;
+import static com.github.simn00.adventura.util.Texts.tNENI_CO_PROZKOUMAT;
+import static com.github.simn00.adventura.util.Texts.tVEC_NEZADANA;
 
 /**
  * Třída PrikazSeber implementuje pro hru příkaz seber.
@@ -9,8 +10,8 @@ import static com.github.simn00.adventura.util.Texts.*;
  * @author Nikol Šímová
  * @version 2017-05-17
  */
-public class PrikazSeber implements IPrikaz {
-    private static final String NAZEV = "seber";
+public class PrikazProzkoumej implements IPrikaz {
+    private static final String NAZEV = "prozkoumej";
     private final HerniPlan plan;
     private final Kosicek kosicek;
 
@@ -20,16 +21,16 @@ public class PrikazSeber implements IPrikaz {
      * @param plan herní plán, ve kterém se bude hledat aktuální místnost
      * @param kosicek inventář hráče
      */
-    public PrikazSeber(HerniPlan plan, Kosicek kosicek) {
+    public PrikazProzkoumej(HerniPlan plan, Kosicek kosicek) {
         this.plan = plan;
         this.kosicek = kosicek;
     }
 
     /**
-     * Provádí příkaz "seber". V aktuální místnosti hledá věc, která je předána jako parametr
+     * Provádí příkaz "prozkoumej". V prozkoumá zadanou věc
      *
      * @param parametry - jako  parametr obsahuje jméno věci,
-     *                  která se má sebrat.
+     *                  která se má prozkoumat.
      * @return zpráva, kterou vypíše hra hráči
      */
     @Override
@@ -42,13 +43,16 @@ public class PrikazSeber implements IPrikaz {
         String jmenoVeci = parametry[0];
 
         // vybereme věc
-        Vec vec = plan.getAktualniProstor().vyberVec(jmenoVeci, true);
+        Vec vec = plan.getAktualniProstor().vyberVec(jmenoVeci, false);
 
         if (vec == null) {
-            return tVEC_TU_NENI;
+            vec = kosicek.vyberVec(jmenoVeci, false);
+            if (vec != null) {
+                return vec.getPopis();
+            }
+            return tNENI_CO_PROZKOUMAT;
         } else {
-            // uložíme věc do batohu
-            return (vec.isPatri() ? kosicek.vlozVec(vec) : tNEMOHU_VZIT);
+            return vec.getPopis();
         }
     }
 
