@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=plan\ kosicek
+comment0.target=PrikazSeber(HerniPlan,\ Kosicek)
+comment0.text=\r\n\ Konstruktor\ t\u0159\u00EDdy\r\n\r\n\ @param\ plan\ hern\u00ED\ pl\u00E1n,\ ve\ kter\u00E9m\ se\ bude\ hledat\ aktu\u00E1ln\u00ED\ m\u00EDstnost\r\n\ @param\ kosicek\ invent\u00E1\u0159\ hr\u00E1\u010De\r\n
+comment1.params=parametry
+comment1.target=java.lang.String\ proved(java.lang.String[])
+comment1.text=\r\n\ Prov\u00E1d\u00ED\ p\u0159\u00EDkaz\ "seber".\ V\ aktu\u00E1ln\u00ED\ m\u00EDstnosti\ hled\u00E1\ v\u011Bc,\ kter\u00E1\ je\ p\u0159ed\u00E1na\ jako\ parametr\r\n\r\n\ @param\ parametry\ -\ jako\ \ parametr\ obsahuje\ jm\u00E9no\ v\u011Bci,\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ kter\u00E1\ se\ m\u00E1\ sebrat.\r\n\ @return\ zpr\u00E1va,\ kterou\ vyp\u00ED\u0161e\ hra\ hr\u00E1\u010Di\r\n
+comment2.params=
+comment2.target=java.lang.String\ getNazev()
+comment2.text=\r\n\ Vrac\u00ED\ n\u00E1zev\ p\u0159\u00EDkazu\r\n\r\n\ @return\ n\u00E1zev\ p\u0159\u00EDkazu\r\n
+numComments=3
